@@ -10,41 +10,41 @@ if [ "$1" == "--init" ]; then
     pacman -Syu $TERMINAL_BASICS $PROGRAMS $LANGUAGES $X11
 
     # Downloading my stuff and configurations
-    GITHUB="https://github.com"
-    USER="bloody-scythe"
 
-    mkdir ~/git
-    pushd ~/git
-            #Let's start with mt dotfiles
-            git clone $GITHUB/$USER/dotfiles
-            pushd dotfiles
-                stow --dotfiles stow termux
+    if [ ! -e "$HOME/git" ]; then
+        GITHUB="https://github.com"
+        USER="fryedbiscuit"
+        mkdir ~/git
+        pushd ~/git
+                #Let's start with mt dotfiles
+                git clone $GITHUB/$USER/dotfiles
+                pushd dotfiles
+                    stow --dotfiles stow termux
+                popd
+
+                #Now dwm
+                git clone $GITHUB/$USER/dwm
+                pushd dwm
+                    git branch termux origin/termux
+                    git checkout termux
+                    
+                    make install
+                    make clean
+                popd
+
+                # Now st
+
+                git clone $GITHUB/$USER/dwm
+                pushd dwm
+                    git branch termux origin/termux
+                    git checkout termux
+                    
+                    make install
+                    make clean
+                popd
             popd
+    fi
 
-            #Now dwm
-            git clone $GITHUB/$USER/dwm
-            pushd dwm
-                git branch termux origin/termux
-                git checkout termux
-                
-                make install
-                make clean
-            popd
-
-            # Now st
-
-            git clone $GITHUB/$USER/dwm
-            pushd dwm
-                git branch termux origin/termux
-                git checkout termux
-                
-                make install
-                make clean
-            popd
-
-
-
-    popd
 else
 
     # Here start the initial step for installing the pacman bootstrap

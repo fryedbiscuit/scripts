@@ -3,10 +3,12 @@
 if [ "$1" == "--init" ]; then
     # here is the inicialization and installing applications
     pacman-key --init && pacman-key --populate
-    TERMINAL_BASICS="git stow neovim wget iproute 2 openssh ncurses-utils fasd fzf make"
-    PROGRAMS="lazygit aria2 gh vifm mpv cmus"
-    LANGUAGES="clang python rust golang lua53"
-    X11="termux-x11 openbox tigervnc"
+    TERMINAL_BASICS="git stow neovim wget iproute2 openssh ncurses-utils fasd fzf make htop rsync xclip"
+    LANGUAGES="clang python pypy rust golang lua53"
+    MAKE="cmake make"
+    PROGRAMS="lazygit aria2 gh vifm mpv cmus ffplay imagemagick nmap-ncat"
+    TERMUX="termux-x11 termux-api"
+    X11="xorg-server-xephyr openbox tigervnc firefox keepassxc nitrogen pavu thunar xfce4-clipman sxhkd"
     pacman -Syu $TERMINAL_BASICS $PROGRAMS $LANGUAGES $X11
 
     # Downloading my stuff and configurations
@@ -17,31 +19,41 @@ if [ "$1" == "--init" ]; then
         mkdir ~/git
         pushd ~/git
                 #Let's start with mt dotfiles
-                git clone $GITHUB/$USER/dotfiles
-                pushd dotfiles
-                    stow --dotfiles stow termux
-                popd
+                if [ ! -e dotfiles ]; then
+                    git clone $GITHUB/$USER/dotfiles
+                    pushd dotfiles
+                        stow --dotfiles stow termux
+                    popd
+                fi
 
                 #Now dwm
-                git clone $GITHUB/$USER/dwm
-                pushd dwm
-                    git branch termux origin/termux
-                    git checkout termux
-                    
-                    make install
-                    make clean
-                popd
+                if [ ! -e dwm ]; then
+                    git clone $GITHUB/$USER/dwm
+                    # if dwm isn't installed
+                    if [ ! $(command -v dwm) ]; then
+                        pushd dwm
+                            git checkout termux
+                            
+                            make install
+                            make clean
+                        popd
+                    fi
+                fi
 
                 # Now st
 
-                git clone $GITHUB/$USER/dwm
-                pushd dwm
-                    git branch termux origin/termux
-                    git checkout termux
-                    
-                    make install
-                    make clean
-                popd
+                if [ ! -e st ]; then
+                git clone $GITHUB/$USER/st
+                    # if st isn't installed
+                    if [ ! $(command -v st) ]; then
+                        pushd st
+                            git checkout termux
+                            
+                            make install
+                            make clean
+                        popd
+                    fi
+                fi
             popd
     fi
 
@@ -53,7 +65,7 @@ else
     #Go to the folder for termux files
     pushd "$PREFIX/.."
         #Download pacman bootstrap from github releases
-        url=`curl -s https://api.github.com/repos/termux/termux-packages/releases/latest | grep 'bootstrap-aarch64\.zip'  | tail -1 | cut -d : -f 2,3  | tr -d \"`
+        wget `curl -s https://api.github.com/repos/termux/termux-packages/releases/latest | grep 'bootstrap-aarch64\.zip'  | tail -1 | cut -d : -f 2,3  | tr -d \"`
 
         unzip bootstrap-aarch64.zip -d usr-n
 

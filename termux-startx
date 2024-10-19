@@ -1,3 +1,3 @@
 #!/bin/bash
 cd "$HOME/.config"
-exec termux-x11 :0 -xstartup `which dwm`
+exec termux-x11 :0 -once -xstartup `which dwm`

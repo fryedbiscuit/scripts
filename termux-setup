@@ -65,7 +65,7 @@ else
     #Go to the folder for termux files
     pushd "$PREFIX/.."
         #Download pacman bootstrap from github releases
-        wget `curl -s https://api.github.com/repos/termux/termux-packages/releases/latest | grep 'bootstrap-aarch64\.zip'  | tail -1 | cut -d : -f 2,3  | tr -d \"`
+        wget `curl -s https://api.github.com/repos/termux-pacman/termux-packages/releases/latest | grep 'bootstrap-aarch64\.zip'  | tail -1 | cut -d : -f 2,3  | tr -d \"`
 
         unzip bootstrap-aarch64.zip -d usr-n
 

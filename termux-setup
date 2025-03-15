@@ -3,13 +3,12 @@
 if [ "$1" == "--init" ]; then
     # here is the inicialization and installing applications
     pacman-key --init && pacman-key --populate
-    TERMINAL_BASICS="git stow neovim wget iproute2 openssh ncurses-utils fasd fzf make htop rsync xclip"
-    LANGUAGES="clang python pypy rust golang lua53"
-    MAKE="cmake make"
+    TERMINAL_BASICS="git stow neovim wget iproute2 openssh ncurses-utils which fasd fzf make htop rsync xclip"
+    LANGUAGES="clang python pypy rust golang lua53 nodejs"
     PROGRAMS="lazygit aria2 gh vifm mpv cmus ffplay imagemagick nmap-ncat"
     TERMUX="termux-x11 termux-api"
-    X11="xorg-server-xephyr openbox tigervnc firefox keepassxc nitrogen pavu thunar xfce4-clipman sxhkd"
-    pacman -Syu $TERMINAL_BASICS $PROGRAMS $LANGUAGES $X11
+    X11="xorg-server-xephyr xorg-xsetroot xorgproto openbox tigervnc picom firefox keepassxc nitrogen pavucontrol thunar xfce4-clipman-plugin sxhkd picom"
+    pacman -Syu base-devel $TERMINAL_BASICS $PROGRAMS $LANGUAGES $X11
 
     # Downloading my stuff and configurations
 

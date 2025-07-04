@@ -1,6 +1,6 @@
 #!/bin/bash
 # change Palhoca to your default location
-location=${1:-"palhoca"}
+location=${1:-"balneario_camboriu"}
 language=${2:-"en"}
 
 options="?Fqmo"
